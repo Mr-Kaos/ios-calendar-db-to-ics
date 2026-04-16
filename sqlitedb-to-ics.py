@@ -56,7 +56,7 @@ def calendar_item_to_ics(item):
 	event += "\nUID:" + str(item[9] or "")
 
 	event += "\nEND:VEVENT"
-	return event
+	return str(event.encode("utf-8"))
 
 def extract_calendar_items(conn: Connection, calendar_id: int, name: str):
 	cur = conn.cursor()
