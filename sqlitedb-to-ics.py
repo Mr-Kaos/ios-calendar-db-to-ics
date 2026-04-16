@@ -16,7 +16,7 @@ def open_file(file: str):
 	conn = None
 	if (os.path.exists(file)):
 		conn = sqlite3.connect(file)
-		
+
 	else:
 		print("The calendar file \"" + file + "\" does not exist!")
 
@@ -56,7 +56,7 @@ def calendar_item_to_ics(item):
 	event += "\nUID:" + str(item[9] or "")
 
 	event += "\nEND:VEVENT"
-	return str(event.encode("utf-8"))
+	return event
 
 def extract_calendar_items(conn: Connection, calendar_id: int, name: str):
 	cur = conn.cursor()
@@ -69,7 +69,7 @@ def extract_calendar_items(conn: Connection, calendar_id: int, name: str):
 	res = cur.execute(query)
 
 	filename = "calendar_" + name + ".ics"
-	file = open(filename, "w")
+	file = open(filename, "w", encoding="utf-8")
 
 	file.write("BEGIN:VCALENDAR")
 
@@ -96,7 +96,7 @@ def get_calendars(conn: Connection):
 	selection = input("Enter a calendar number to export: ")
 	while selection.isnumeric() and (int(selection) > len(calendars) or int(selection) < 0) or not selection.isnumeric():
 		selection = input("Enter a calendar number to export: ")
-		
+
 	if int(selection) == 0:
 		# combine = input("Would you like to combine all calendars into one .ics file? [y/N]: ")
 		print("NOT AVAILABLE YET, SORRY")
